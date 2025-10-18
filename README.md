@@ -1,0 +1,1 @@
+Moxy Hotel landing page 
