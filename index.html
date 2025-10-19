@@ -73,7 +73,7 @@
     .map-container {
       position: relative;
       overflow: hidden;
-      padding-top: 100%; /* Default: square ratio for desktop */
+      padding-top: 100%;
       border-radius: 12px;
     }
 
@@ -84,6 +84,40 @@
       width: 100%;
       height: 100%;
       border: 0;
+    }
+
+    /* ===== Bar Menu Gallery ===== */
+    .menu-container {
+      position: relative;
+      text-align: center;
+    }
+
+    .menu-image {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(225, 0, 116, 0.4);
+      transition: opacity 0.4s ease;
+    }
+
+    .menu-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1em;
+    }
+
+    .menu-buttons button {
+      background-color: #701D5E;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7em 1.2em;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .menu-buttons button:hover {
+      background-color: #E10074;
     }
 
     /* ===== Form Styling ===== */
@@ -160,9 +194,8 @@
       .card {
         padding: 1em;
       }
-      /* 📱 Taller map on mobile */
       .map-container {
-        padding-top: 150%; /* 1.5x taller map on small screens */
+        padding-top: 150%;
       }
     }
   </style>
@@ -184,7 +217,21 @@
     <strong>Wi-Fi:</strong> <em>#atthemoxy</em> → “Proceed as Guest”.<br>
   </div>
 </section>
-  
+
+<!-- 🥂 Bar Menu Section -->
+<section id="bar-menu">
+  <h2>Bar Menu 🍸</h2>
+  <div class="card">
+    <div class="menu-container">
+      <img id="menuImage" src="menu1.jpg" alt="Bar Menu Page" class="menu-image">
+      <div class="menu-buttons">
+        <button id="prevBtn">← Prev</button>
+        <button id="nextBtn">Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="map">
   <h2>Explore Dortmund</h2>
   <div class="card">
@@ -196,7 +243,7 @@
     </div>
   </div>
 </section>
-  
+
 <section id="facilities">
   <h2>Facilities</h2>
   <div class="card">
@@ -249,6 +296,34 @@
   <p>© 2025 Moxy Dortmund City | Marriott International</p>
   <p><a href="#top">↑ Back to top</a></p>
 </footer>
+
+<!-- ===== JavaScript for Menu Flip ===== -->
+<script>
+  const images = ["menu1.jpg", "menu2.jpg", "menu3.jpg"]; // Add or remove menu pages here
+  let current = 0;
+
+  const menuImage = document.getElementById("menuImage");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  function updateImage() {
+    menuImage.style.opacity = 0;
+    setTimeout(() => {
+      menuImage.src = images[current];
+      menuImage.style.opacity = 1;
+    }, 200);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    current = (current - 1 + images.length) % images.length;
+    updateImage();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    current = (current + 1) % images.length;
+    updateImage();
+  });
+</script>
 
 </body>
 </html>
