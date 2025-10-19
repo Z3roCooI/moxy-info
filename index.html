@@ -47,7 +47,7 @@
     }
 
     .card {
-      background: #2A2A2A; /* slightly lighter dark grey */
+      background: #2A2A2A;
       border-radius: 12px;
       padding: 1.2em;
       margin-bottom: 1.5em;
@@ -63,7 +63,7 @@
     }
 
     a {
-      color: #E10074; /* Moxy pink/purple accent */
+      color: #E10074;
       text-decoration: none;
       font-weight: bold;
     }
@@ -76,7 +76,7 @@
     .map-container {
       position: relative;
       overflow: hidden;
-      padding-top: 70%; /* taller map for better mobile usability */
+      padding-top: 100%; /* square aspect ratio */
       border-radius: 12px;
     }
 
@@ -124,42 +124,11 @@
 <section id="map">
   <h2>Explore Dortmund</h2>
   <div class="card">
-    <!-- Responsive Map Embed -->
     <div class="map-container">
       <iframe src="https://www.google.com/maps/d/embed?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ehbc=2E312F&ll=51.5145,7.4538&z=14"
               allowfullscreen=""
               loading="lazy">
       </iframe>
-    </div>
-
-    <!-- Category Toggles -->
-    <div style="text-align:center; margin-top:1em;">
-      <p style="color:#ccc; font-size:0.9em;">Select a category to view on map:</p>
-      <a href="https://www.google.com/maps/d/viewer?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ll=51.5145,7.4538&z=14" 
-         target="_blank" 
-         style="background:#701D5E; color:white; padding:0.5em 1em; border-radius:8px; margin:0.2em; display:inline-block;">
-         🏨 Full Map
-      </a>
-      <a href="https://www.google.com/maps/d/u/0/viewer?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ll=51.5145,7.4538&z=14&hl=en&layer=Restaurants"
-         target="_blank" 
-         style="background:#2A2A2A; color:#E10074; padding:0.5em 1em; border-radius:8px; margin:0.2em; display:inline-block;">
-         🍽 Restaurants
-      </a>
-      <a href="https://www.google.com/maps/d/u/0/viewer?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ll=51.5145,7.4538&z=14&hl=en&layer=Parking"
-         target="_blank" 
-         style="background:#2A2A2A; color:#E10074; padding:0.5em 1em; border-radius:8px; margin:0.2em; display:inline-block;">
-         🅿 Parking
-      </a>
-      <a href="https://www.google.com/maps/d/u/0/viewer?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ll=51.5145,7.4538&z=14&hl=en&layer=Sights"
-         target="_blank" 
-         style="background:#2A2A2A; color:#E10074; padding:0.5em 1em; border-radius:8px; margin:0.2em; display:inline-block;">
-         🏙 Sights
-      </a>
-      <a href="https://www.google.com/maps/d/u/0/viewer?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ll=51.5145,7.4538&z=14&hl=en&layer=Transport"
-         target="_blank" 
-         style="background:#2A2A2A; color:#E10074; padding:0.5em 1em; border-radius:8px; margin:0.2em; display:inline-block;">
-         🚇 Transport
-      </a>
     </div>
   </div>
 </section>
