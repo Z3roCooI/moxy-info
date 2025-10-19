@@ -24,6 +24,11 @@
       color: #FFFFFF;
       margin: 0;
       line-height: 1.6;
+      box-sizing: border-box;
+    }
+
+    *, *::before, *::after {
+      box-sizing: inherit;
     }
 
     header {
@@ -49,25 +54,17 @@
     .card {
       background: #2A2A2A;
       border-radius: 12px;
-      padding: 1.2em;
+      padding: 1.5em;
       margin-bottom: 1.5em;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
 
-    footer {
-      background: #111;
-      color: #ccc;
-      text-align: center;
-      padding: 1em;
-      font-size: 0.9em;
-    }
-
+    /* ===== Links ===== */
     a {
       color: #E10074;
       text-decoration: none;
       font-weight: bold;
     }
-
     a:hover {
       text-decoration: underline;
     }
@@ -93,7 +90,8 @@
     form {
       display: flex;
       flex-direction: column;
-      gap: 0.8em;
+      gap: 1em;
+      margin-top: 0.5em;
     }
 
     label {
@@ -102,19 +100,28 @@
       margin-bottom: 0.3em;
     }
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       padding: 0.8em;
-      border: none;
+      border: 1px solid #444;
       border-radius: 8px;
       background: #1A1A1A;
-      color: white;
+      color: #fff;
       font-size: 1em;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease-in-out;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #E10074;
+      box-shadow: 0 0 6px rgba(225, 0, 116, 0.5);
     }
 
     textarea {
       resize: vertical;
+      min-height: 120px;
     }
 
     button {
@@ -122,14 +129,24 @@
       color: white;
       border: none;
       border-radius: 8px;
-      padding: 0.8em;
+      padding: 0.9em;
       font-size: 1em;
       cursor: pointer;
       transition: background 0.3s ease;
+      width: 100%;
     }
 
     button:hover {
       background-color: #E10074;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: #111;
+      color: #ccc;
+      text-align: center;
+      padding: 1em;
+      font-size: 0.9em;
     }
 
     /* ===== Responsive Layout ===== */
@@ -150,7 +167,7 @@
 <body>
 
 <header id="top">
-  <h1>Welcome to Moxy Dortmund City 👋</h1>
+  <h1>Welcome to Moxy Dortmund City</h1>
   <p>All you need to know for your stay</p>
 </header>
 
