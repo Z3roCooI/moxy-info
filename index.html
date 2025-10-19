@@ -72,7 +72,7 @@
       text-decoration: underline;
     }
 
-    /* ===== Map Responsive Styling ===== */
+    /* ===== Map Styling ===== */
     .map-container {
       position: relative;
       overflow: hidden;
@@ -87,6 +87,49 @@
       width: 100%;
       height: 100%;
       border: 0;
+    }
+
+    /* ===== Form Styling ===== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8em;
+    }
+
+    label {
+      font-weight: bold;
+      color: #E5E5E5;
+      margin-bottom: 0.3em;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8em;
+      border: none;
+      border-radius: 8px;
+      background: #1A1A1A;
+      color: white;
+      font-size: 1em;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      background-color: #701D5E;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8em;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #E10074;
     }
 
     /* ===== Responsive Layout ===== */
@@ -156,6 +199,28 @@
   <div class="card">
     ☎️ <a href="tel:+49231123456">+49 (0)231 123 456</a><br>
     📧 <a href="mailto:crew@dtmod.net">crew@dtmod.net</a>
+  </div>
+</section>
+
+<!-- 💌 Contact Form Section -->
+<section id="feedback">
+  <h2>Questions or Feedback?</h2>
+  <div class="card">
+    <form action="https://formspree.io/f/mdkwjlgg" method="POST">
+      <label for="guest-name">Guest Name:</label>
+      <input type="text" id="guest-name" name="guest-name" placeholder="Your name" required>
+
+      <label for="email">Contact Email:</label>
+      <input type="email" id="email" name="_replyto" placeholder="you@example.com" required>
+
+      <label for="room">Room Number:</label>
+      <input type="text" id="room" name="room" placeholder="Your room number" required>
+
+      <label for="message">Your Message:</label>
+      <textarea id="message" name="message" rows="5" placeholder="Write your question or feedback here..." required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
   </div>
 </section>
 
