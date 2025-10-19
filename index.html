@@ -73,7 +73,7 @@
     .map-container {
       position: relative;
       overflow: hidden;
-      padding-top: 100%; /* square aspect ratio */
+      padding-top: 100%; /* Default: square ratio for desktop */
       border-radius: 12px;
     }
 
@@ -160,6 +160,10 @@
       .card {
         padding: 1em;
       }
+      /* 📱 Taller map on mobile */
+      .map-container {
+        padding-top: 150%; /* 1.5x taller map on small screens */
+      }
     }
   </style>
 </head>
@@ -167,7 +171,7 @@
 <body>
 
 <header id="top">
-  <h1>Welcome to Moxy Dortmund City</h1>
+  <h1>Welcome to Moxy Dortmund City 👋</h1>
   <p>All you need to know for your stay</p>
 </header>
 
