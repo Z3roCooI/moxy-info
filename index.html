@@ -5,9 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Moxy Dortmund City Info</title>
   <link rel="icon" href="logo.png" />
+  
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- SEO & Social -->
+  <meta name="description" content="Welcome to Moxy Dortmund City — all the essential info for your stay: breakfast, parking, Wi-Fi, and local tips.">
+  <meta property="og:title" content="Moxy Dortmund City Info">
+  <meta property="og:description" content="All you need to know during your stay — breakfast, parking, Wi-Fi, and local highlights.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://yourusername.github.io/moxy-info/preview.jpg">
+
   <style>
     body {
-      font-family: 'Comforta', sans-serif;
+      font-family: 'Comfortaa', sans-serif;
       background-color: #fff;
       color: #701D5E;
       margin: 0;
@@ -17,7 +28,7 @@
       background: #701D5E;
       color: #fff;
       text-align: center;
-      padding: 1.5em 1em;
+      padding: 2em 1em;
     }
     section {
       padding: 1.5em;
@@ -26,12 +37,15 @@
     }
     h2 {
       color: #000000;
+      border-bottom: 2px solid #701D5E;
+      padding-bottom: 0.3em;
     }
     .card {
       background: #ffffff;
       border-radius: 12px;
       padding: 1em;
       margin-bottom: 1em;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
     footer {
       background: #111;
@@ -40,31 +54,55 @@
       padding: 1em;
       font-size: 0.9em;
     }
+    a {
+      color: #701D5E;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .map-container {
+      position: relative;
+      overflow: hidden;
+      padding-top: 56.25%; /* 16:9 ratio */
+      border-radius: 12px;
+    }
+    .map-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
   </style>
 </head>
+
 <body>
 
-<header>
-  <h1>Welcome to Moxy Dortmund City</h1>
+<header id="top">
+  <h1>Welcome to Moxy Dortmund City 👋</h1>
   <p>All you need to know for your stay</p>
 </header>
 
 <section id="info">
   <h2>Hotel Info</h2>
   <div class="card">
-    <strong>Check-Out:</strong>       12:00 <br>
-    <strong>Breakfast:</strong>       06:00–10:00 in the Lobby.<br>
-    <strong>Reception & Bar:</strong> 24-7 <br>
-    <strong>Wi-Fi:</strong> <em>      #atthemoxy</em> → “Proceed as Guest”.<br>    
-    
+    <strong>Check-Out:</strong> 12:00<br>
+    <strong>Breakfast:</strong> 06:00–10:00 in the Lobby.<br>
+    <strong>Reception & Bar:</strong> 24-7<br>
+    <strong>Wi-Fi:</strong> <em>#atthemoxy</em> → “Proceed as Guest”.<br>
   </div>
 </section>
   
 <section id="parking">
   <h2>Parking</h2>
   <div class="card">
-    <a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A">Parking Garage Dortmunder-U</a><br><br>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2482.913026438883!2d7.451758212195411!3d51.51481161004419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!3e0!4m5!1s0x47b9196c942782bf%3A0x9d678d5b3cb0b3cd!2sMoxy%20Dortmund%20City%2C%20Annelise-Kretschmer-Stra%C3%9Fe%201%2C%2044137%20Dortmund!3m2!1d51.5138876!2d7.453305299999999!4m4!1s0x47b919ef5809c7a1%3A0x5dd7800c42f6399d!3m2!1d51.5160513!2d7.4537882!5e0!3m2!1sen!2sde!4v1760814840998!5m2!1sen!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    🚗 <a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank">Parking Garage Dortmunder-U (Google Maps)</a><br><br>
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2482.913026438883!2d7.451758212195411!3d51.51481161004419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!3e0!4m5!1s0x47b9196c942782bf%3A0x9d678d5b3cb0b3cd!2sMoxy%20Dortmund%20City%2C%20Annelise-Kretschmer-Stra%C3%9Fe%201%2C%2044137%20Dortmund!3m2!1d51.5138876!2d7.453305299999999!4m4!1s0x47b919ef5809c7a1%3A0x5dd7800c42f6399d!3m2!1d51.5160513!2d7.4537882!5e0!3m2!1sen!2sde!4v1760814840998!5m2!1sen!2sde" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
   </div>
 </section>
   
@@ -72,31 +110,31 @@
   <h2>Facilities</h2>
   <div class="card">
     Bar & Snacks 24/7 🍸<br>
-    Gym 🏋️‍♀️ 24/7 @ ResindenceInn<br>
+    Gym 🏋️‍♀️ 24/7 @ Residence Inn<br>
     Ironing Room on every floor, next to the elevator<br>
-    
   </div>
 </section>
 
 <section id="explore">
   <h2>Explore Dortmund</h2>
   <div class="card">
-    - Signal Iduna Park (U45/U46, 10 min)<br>
-    - Thier-Galerie Shopping (5 min walk)<br>
-    - Dortmunder U (art & city view)
+    • Signal Iduna Park (U45/U46, 10 min)<br>
+    • Thier-Galerie Shopping (5 min walk)<br>
+    • Dortmunder U (art & city view)
   </div>
 </section>
 
 <section id="contact">
   <h2>Contact the Crew</h2>
   <div class="card">
-    ☎️ +49 (0)231 123 456<br>
-    📧 crew@dtmod.net
+    ☎️ <a href="tel:+49231123456">+49 (0)231 123 456</a><br>
+    📧 <a href="mailto:crew@dtmod.net">crew@dtmod.net</a>
   </div>
 </section>
 
 <footer>
-  © 2025 Moxy Dortmund City | Marriott International
+  <p>© 2025 Moxy Dortmund City | Marriott International</p>
+  <p><a href="#top">↑ Back to top</a></p>
 </footer>
 
 </body>
