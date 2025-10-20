@@ -2,195 +2,191 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Moxy Dortmund City Info</title>
   <link rel="icon" href="logo.png" />
-  
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Comfortaa', sans-serif;
-      background-color: #1A1A1A;
-      color: #FFFFFF;
-      margin: 0;
-      line-height: 1.6;
-      box-sizing: border-box;
-    }
-    *, *::before, *::after { box-sizing: inherit; }
-
-    header {
-      background: #701D5E;
-      color: #fff;
-      text-align: center;
-      padding: 2em 1em;
+    :root{
+      --bg:#1A1A1A;
+      --card:#2A2A2A;
+      --text:#FFFFFF;
+      --muted:#E5E5E5;
+      --accent:#701D5E;
+      --accent2:#E10074;
+      --arrow-size:42px;
+      --arrow-mobile:30px;
+      --arrow-offset:8px;  /* distance from edge */
+      --arrow-idle:0.12;   /* idle opacity */
+      --arrow-active:0.7;  /* shown opacity */
     }
 
-    section {
-      padding: 1.5em;
-      max-width: 800px;
-      margin: auto;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:'Comfortaa',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
     }
 
-    h2 {
-      color: #E5E5E5;
-      border-bottom: 2px solid #701D5E;
-      padding-bottom: 0.3em;
-      margin-bottom: 0.8em;
+    header{
+      background:var(--accent);
+      color:#fff;
+      text-align:center;
+      padding:2em 1em;
     }
 
-    .card {
-      background: #2A2A2A;
-      border-radius: 12px;
-      padding: 1.5em;
-      margin-bottom: 1.5em;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    section{
+      padding:1.5em;
+      max-width:800px;
+      margin:auto;
+      width:100%;
     }
 
-    a {
-      color: #E10074;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover { text-decoration: underline; }
-
-    /* ===== Carousel Base ===== */
-    .carousel-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1em;
+    h2{
+      color:var(--muted);
+      border-bottom:2px solid var(--accent);
+      padding-bottom:.3em;
+      margin-bottom:.8em;
     }
 
-    .carousel {
-      overflow: hidden;
-      border-radius: 12px;
-      flex: 1;
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:1.5em;
+      margin-bottom:1.5em;
+      box-shadow:0 2px 6px rgba(0,0,0,.3);
     }
 
-    .carousel-track {
-      display: flex;
-      transition: transform 0.5s ease;
+    a{color:var(--accent2);text-decoration:none;font-weight:bold}
+    a:hover{text-decoration:underline}
+
+    /* ======= Carousel (shared) ======= */
+    .carousel{
+      position:relative;
+      overflow:hidden;          /* prevents any overflow on mobile */
+      border-radius:12px;
+      width:100%;
+      touch-action:pan-y;       /* allow horizontal swipe without page scroll jitter */
+    }
+    .carousel-track{
+      display:flex;
+      width:100%;
+      will-change:transform;
+      transform:translateX(-100%); /* will be set in JS after cloning */
+    }
+    .carousel-card{
+      min-width:100%;
+      background:var(--card);
+      border-radius:12px;
+      /* extra side padding so arrows never cover text */
+      padding:1.5em clamp(2.5em, 6vw, 3.5em);
+      text-align:center;
+      box-shadow:0 2px 6px rgba(0,0,0,.3);
+    }
+    .carousel-card h3{
+      color:var(--accent2);
+      margin:.2em 0 .5em;
     }
 
-    .carousel-card {
-      min-width: 100%;
-      background: #2A2A2A;
-      border-radius: 12px;
-      padding: 1.5em;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    /* overlay arrows INSIDE the carousel so they don't affect layout */
+    .arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:var(--arrow-size);
+      height:var(--arrow-size);
+      border-radius:50%;
+      background:rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.15);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.25rem;
+      cursor:pointer;
+      user-select:none;
+      transition:opacity .25s ease, background .25s ease, border-color .25s ease;
+      z-index:2;
+      opacity:var(--arrow-idle);
     }
+    .arrow.left{left:var(--arrow-offset)}
+    .arrow.right{right:var(--arrow-offset)}
+    .arrow:hover{opacity:1;background:rgba(225,0,116,.45);border-color:var(--accent2)}
 
-    .carousel-card h3 {
-      color: #E10074;
-      margin-bottom: 0.5em;
-    }
-
-    /* ===== Arrows (now outside) ===== */
-    .arrow {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      font-size: 1.2em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.6;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-    }
-
-    .arrow:hover {
-      opacity: 1;
-      background: rgba(225, 0, 116, 0.4);
-      border-color: #E10074;
-    }
+    /* When user interacts, bump visibility briefly */
+    .carousel.show-arrows .arrow{opacity:var(--arrow-active)}
 
     /* ===== Map ===== */
-    .map-container iframe {
-      width: 100%;
-      height: 400px;
-      border: 0;
-      border-radius: 12px;
+    .map-container iframe{
+      width:100%;
+      height:400px;
+      border:0;
+      border-radius:12px;
+      display:block;
     }
 
-    /* ===== Bar Menu ===== */
-    .menu-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1em;
+    /* ===== Menu image viewer ===== */
+    .menu-stage{
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
     }
-
-    .menu-image {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(225,0,116,0.4);
-      transition: opacity 0.4s ease;
-      max-width: 100%;
+    .menu-image{
+      width:100%;
+      display:block;
+      border-radius:12px;
+      box-shadow:0 0 15px rgba(225,0,116,.35);
+      transition:opacity .35s ease;
     }
 
     /* ===== Form ===== */
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
+    form{display:flex;flex-direction:column;gap:1em}
+    label{font-weight:bold;color:var(--muted)}
+    input,textarea{
+      width:100%;
+      padding:.8em;
+      border:1px solid #444;
+      border-radius:8px;
+      background:#1A1A1A;
+      color:#fff;
+      font-size:1em;
+      outline:none;
+      transition:border-color .2s, box-shadow .2s;
     }
-    label { font-weight: bold; color: #E5E5E5; }
-    input, textarea {
-      width: 100%;
-      padding: 0.8em;
-      border: 1px solid #444;
-      border-radius: 8px;
-      background: #1A1A1A;
-      color: white;
-      font-size: 1em;
+    input:focus,textarea:focus{border-color:var(--accent2);box-shadow:0 0 6px rgba(225,0,116,.5)}
+    textarea{resize:vertical;min-height:120px}
+    button{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      padding:.9em;
+      font-size:1em;
+      cursor:pointer;
+      transition:background .3s ease;
+      width:100%;
     }
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: #E10074;
-      box-shadow: 0 0 6px rgba(225,0,116,0.5);
-    }
-    textarea { resize: vertical; min-height: 120px; }
+    button:hover{background:var(--accent2)}
 
-    button {
-      background-color: #701D5E;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 0.9em;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      width: 100%;
-    }
-    button:hover { background-color: #E10074; }
-
-    footer {
-      background: #111;
-      color: #ccc;
-      text-align: center;
-      padding: 1em;
-      font-size: 0.9em;
+    footer{
+      background:#111;
+      color:#ccc;
+      text-align:center;
+      padding:1em;
+      font-size:.9em;
     }
 
-    @media (max-width: 600px) {
-      .carousel-wrapper, .menu-container {
-        flex-direction: column;
-      }
-      .arrow {
-        order: 1;
-      }
+    /* ===== Mobile tweaks ===== */
+    @media (max-width:600px){
+      :root{ --arrow-size:var(--arrow-mobile); --arrow-offset:6px; }
+      .map-container iframe{ height:55vh; }  /* nice tall map on phones */
+      .carousel-card{ padding:1.25em 2.75em; } /* a bit tighter but still clear of arrows */
     }
   </style>
 </head>
-
 <body>
 
 <header id="top">
@@ -198,46 +194,67 @@
   <p>Guest Information</p>
 </header>
 
-<!-- 🏨 Hotel Info Carousel -->
+<!-- ===== Hotel Info Carousel ===== -->
 <section id="info">
   <h2>Hotel Information</h2>
-  <div class="carousel-wrapper">
-    <button class="arrow" id="prevInfo">‹</button>
-    <div class="carousel">
-      <div class="carousel-track" id="infoTrack">
-        <div class="carousel-card"><h3>Reception & Bar</h3><p>Open 24/7 for all your needs — from check-in to midnight cocktails.</p></div>
-        <div class="carousel-card"><h3>Check-in & Check-out</h3><p>Check-in from 3:00 PM<br>Check-out by 12:00 PM</p></div>
-        <div class="carousel-card"><h3>Breakfast</h3><p>Served daily in the lobby from 6:00 AM to 10:00 AM.</p></div>
-        <div class="carousel-card"><h3>Gym</h3><p>Available 24/7 at Residence Inn, next door.</p></div>
-        <div class="carousel-card"><h3>Wi-Fi</h3><p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest” to connect.</p></div>
-        <div class="carousel-card"><h3>Parking</h3><p>Public garage available nearby at Dortmunder U.<br><a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank">Open in Google Maps</a></p></div>
+  <div class="carousel" id="infoCarousel">
+    <button class="arrow left"  id="prevInfo" aria-label="Previous">‹</button>
+    <button class="arrow right" id="nextInfo" aria-label="Next">›</button>
+
+    <div class="carousel-track" id="infoTrack">
+      <div class="carousel-card">
+        <h3>Reception & Bar</h3>
+        <p>Open 24/7 for all your needs — from check-in to midnight cocktails.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Check-in & Check-out</h3>
+        <p>Check-in from 3:00 PM<br>Check-out by 12:00 PM</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Breakfast</h3>
+        <p>Served daily in the lobby from 6:00 AM to 10:00 AM.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Gym</h3>
+        <p>Available 24/7 at Residence Inn, next door.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Wi-Fi</h3>
+        <p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest” to connect.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Parking</h3>
+        <p>Public garage available nearby at Dortmunder U.<br>
+          <a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank" rel="noopener">Open in Google Maps</a>
+        </p>
       </div>
     </div>
-    <button class="arrow" id="nextInfo">›</button>
   </div>
 </section>
 
-<!-- 🥂 Bar Menu -->
+<!-- ===== Bar Menu (image slider) ===== -->
 <section id="bar-menu">
   <h2>Bar Menu</h2>
-  <div class="card">
-    <div class="menu-container">
-      <button class="arrow" id="prevMenu">‹</button>
-      <img id="menuImage" src="menu1.jpg" alt="Bar Menu" class="menu-image">
-      <button class="arrow" id="nextMenu">›</button>
-    </div>
+  <div class="card menu-stage" id="menuStage">
+    <button class="arrow left"  id="prevMenu" aria-label="Previous">‹</button>
+    <img id="menuImage" src="menu1.jpg" alt="Bar Menu Page" class="menu-image">
+    <button class="arrow right" id="nextMenu" aria-label="Next">›</button>
   </div>
 </section>
 
-<!-- 🗺️ Google Map -->
+<!-- ===== Map ===== -->
 <section id="map">
   <h2>Find Us</h2>
   <div class="card map-container">
-    <iframe src="https://www.google.com/maps/d/embed?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ehbc=2E312F" allowfullscreen="" loading="lazy"></iframe>
+    <iframe
+      src="https://www.google.com/maps/d/embed?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ehbc=2E312F"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
   </div>
 </section>
 
-<!-- 💌 Contact -->
+<!-- ===== Contact ===== -->
 <section id="feedback">
   <h2>Contact</h2>
   <div class="card">
@@ -265,95 +282,103 @@
 </footer>
 
 <script>
-  // ===== Infinite Carousel (Smooth) =====
-  function initInfiniteCarousel(trackId, prevBtnId, nextBtnId) {
-    const track = document.getElementById(trackId);
-    const slides = Array.from(track.children);
-    const total = slides.length;
-    let index = 1;
+  /* ===== Utilities: show arrows briefly after interaction ===== */
+  function flashArrows(container){
+    container.classList.add('show-arrows');
+    clearTimeout(container._arrowTimer);
+    container._arrowTimer = setTimeout(()=>container.classList.remove('show-arrows'), 1000);
+  }
 
-    const firstClone = slides[0].cloneNode(true);
-    const lastClone = slides[total - 1].cloneNode(true);
-    track.appendChild(firstClone);
-    track.insertBefore(lastClone, slides[0]);
-    const allSlides = Array.from(track.children);
+  /* ===== Infinite carousel factory ===== */
+  function makeInfiniteCarousel(trackEl, prevBtn, nextBtn, containerEl){
+    const original = Array.from(trackEl.children);
+    const firstClone = original[0].cloneNode(true);
+    const lastClone  = original[original.length-1].cloneNode(true);
 
-    track.style.transform = `translateX(-${index * 100}%)`;
+    trackEl.appendChild(firstClone);
+    trackEl.insertBefore(lastClone, original[0]);
 
-    const nextBtn = document.getElementById(nextBtnId);
-    const prevBtn = document.getElementById(prevBtnId);
+    let index = 1; // start at first real slide
+    const totalWithClones = trackEl.children.length;
 
-    function moveToSlide(i) {
-      track.style.transition = "transform 0.5s ease";
-      track.style.transform = `translateX(-${i * 100}%)`;
+    function goto(i, withAnim=true){
+      if(withAnim) trackEl.style.transition = "transform 0.55s ease";
+      else trackEl.style.transition = "none";
+      trackEl.style.transform = `translateX(-${i * 100}%)`;
     }
+    // initial position
+    requestAnimationFrame(()=>goto(index,false));
 
-    nextBtn.addEventListener("click", () => {
-      if (index >= allSlides.length - 1) return;
-      index++;
-      moveToSlide(index);
-    });
-    prevBtn.addEventListener("click", () => {
-      if (index <= 0) return;
-      index--;
-      moveToSlide(index);
-    });
+    nextBtn.addEventListener('click', ()=>{ index++; goto(index); flashArrows(containerEl); });
+    prevBtn.addEventListener('click', ()=>{ index--; goto(index); flashArrows(containerEl); });
 
-    track.addEventListener("transitionend", () => {
-      if (allSlides[index].isEqualNode(firstClone)) {
-        track.style.transition = "none";
+    trackEl.addEventListener('transitionend', ()=>{
+      const slides = trackEl.children;
+      if (slides[index] === firstClone){
         index = 1;
-        track.style.transform = `translateX(-${index * 100}%)`;
+        goto(index,false);
       }
-      if (allSlides[index].isEqualNode(lastClone)) {
-        track.style.transition = "none";
-        index = total;
-        track.style.transform = `translateX(-${index * 100}%)`;
+      if (slides[index] === lastClone){
+        index = original.length;
+        goto(index,false);
       }
     });
 
-    // Swipe
-    let startX = 0;
-    track.addEventListener("touchstart", e => startX = e.touches[0].clientX);
-    track.addEventListener("touchend", e => {
-      const diff = e.changedTouches[0].clientX - startX;
-      if (diff > 50) prevBtn.click();
-      if (diff < -50) nextBtn.click();
+    // Touch swipe
+    let startX=null;
+    trackEl.addEventListener('touchstart', e=>{
+      startX = e.touches[0].clientX;
+      flashArrows(containerEl);
+    }, {passive:true});
+
+    trackEl.addEventListener('touchend', e=>{
+      if(startX===null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (dx > 50) prevBtn.click();
+      if (dx < -50) nextBtn.click();
+      startX = null;
     });
   }
 
-  initInfiniteCarousel("infoTrack", "prevInfo", "nextInfo");
+  // Hotel Info carousel
+  const infoCarousel  = document.getElementById('infoCarousel');
+  const infoTrack     = document.getElementById('infoTrack');
+  const prevInfo      = document.getElementById('prevInfo');
+  const nextInfo      = document.getElementById('nextInfo');
+  makeInfiniteCarousel(infoTrack, prevInfo, nextInfo, infoCarousel);
 
-  // ===== Bar Menu Carousel =====
-  const menuImages = ["menu1.jpg", "menu2.jpg", "menu3.jpg"];
-  let menuIndex = 0;
-  const menuImage = document.getElementById("menuImage");
-  const nextMenu = document.getElementById("nextMenu");
-  const prevMenu = document.getElementById("prevMenu");
+  // Bar Menu simple slider (swipe + arrows, no clones needed since images swap)
+  const menuStage   = document.getElementById('menuStage');
+  const menuImg     = document.getElementById('menuImage');
+  const prevMenuBtn = document.getElementById('prevMenu');
+  const nextMenuBtn = document.getElementById('nextMenu');
+  const menuImages  = ["menu1.jpg","menu2.jpg","menu3.jpg"];
+  let mi = 0;
 
-  function updateMenu() {
-    menuImage.style.opacity = 0;
-    setTimeout(() => {
-      menuImage.src = menuImages[menuIndex];
-      menuImage.style.opacity = 1;
-    }, 200);
+  function setMenu(i){
+    menuImg.style.opacity = 0;
+    setTimeout(()=>{
+      menuImg.src = menuImages[i];
+      menuImg.style.opacity = 1;
+    },180);
   }
 
-  nextMenu.addEventListener("click", () => {
-    menuIndex = (menuIndex + 1) % menuImages.length;
-    updateMenu();
-  });
-  prevMenu.addEventListener("click", () => {
-    menuIndex = (menuIndex - 1 + menuImages.length) % menuImages.length;
-    updateMenu();
+  nextMenuBtn.addEventListener('click', ()=>{ mi = (mi+1)%menuImages.length; setMenu(mi); flashArrows(menuStage); });
+  prevMenuBtn.addEventListener('click', ()=>{ mi = (mi-1+menuImages.length)%menuImages.length; setMenu(mi); flashArrows(menuStage); });
+
+  let touchStartX = null;
+  menuImg.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; flashArrows(menuStage); }, {passive:true});
+  menuImg.addEventListener('touchend', e=>{
+    if(touchStartX===null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx > 50) prevMenuBtn.click();
+    if (dx < -50) nextMenuBtn.click();
+    touchStartX=null;
   });
 
-  menuImage.addEventListener("touchstart", e => startX = e.touches[0].clientX);
-  menuImage.addEventListener("touchend", e => {
-    const diff = e.changedTouches[0].clientX - startX;
-    if (diff > 50) prevMenu.click();
-    if (diff < -50) nextMenu.click();
-  });
+  // Reveal arrows briefly on first load so users notice them
+  flashArrows(infoCarousel);
+  flashArrows(menuStage);
 </script>
 
 </body>
