@@ -17,16 +17,14 @@
   <meta property="og:image" content="https://yourusername.github.io/moxy-info/preview.jpg">
 
   <style>
-    /* ===== General Page Styling ===== */
     body {
       font-family: 'Comfortaa', sans-serif;
-      background-color: #1A1A1A; /* dark grey background */
+      background-color: #1A1A1A;
       color: #FFFFFF;
       margin: 0;
       line-height: 1.6;
       box-sizing: border-box;
     }
-
     *, *::before, *::after {
       box-sizing: inherit;
     }
@@ -35,7 +33,7 @@
       background: #701D5E;
       color: #fff;
       text-align: center;
-      padding: 1em 1em;
+      padding: 2em 1em;
     }
 
     section {
@@ -56,17 +54,61 @@
       border-radius: 12px;
       padding: 1.5em;
       margin-bottom: 1.5em;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
-    /* ===== Links ===== */
     a {
       color: #E10074;
       text-decoration: none;
       font-weight: bold;
     }
-    a:hover {
-      text-decoration: underline;
+    a:hover { text-decoration: underline; }
+
+    /* ===== Hotel Info Carousel ===== */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-card {
+      min-width: 100%;
+      background: #2A2A2A;
+      border-radius: 12px;
+      padding: 1.5em;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .carousel-card h3 {
+      color: #E10074;
+      margin-bottom: 0.5em;
+    }
+
+    .carousel-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1em;
+    }
+
+    .carousel-buttons button {
+      background-color: #701D5E;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6em 1.2em;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .carousel-buttons button:hover {
+      background-color: #E10074;
     }
 
     /* ===== Map Styling ===== */
@@ -76,7 +118,6 @@
       padding-top: 100%;
       border-radius: 12px;
     }
-
     .map-container iframe {
       position: absolute;
       top: 0;
@@ -86,25 +127,19 @@
       border: 0;
     }
 
-    /* ===== Bar Menu Gallery ===== */
-    .menu-container {
-      position: relative;
-      text-align: center;
-    }
-
+    /* ===== Bar Menu ===== */
+    .menu-container { text-align: center; position: relative; }
     .menu-image {
       width: 100%;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(225, 0, 116, 0.4);
+      box-shadow: 0 0 15px rgba(225,0,116,0.4);
       transition: opacity 0.4s ease;
     }
-
     .menu-buttons {
       display: flex;
       justify-content: space-between;
       margin-top: 1em;
     }
-
     .menu-buttons button {
       background-color: #701D5E;
       color: white;
@@ -115,48 +150,30 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-
-    .menu-buttons button:hover {
-      background-color: #E10074;
-    }
+    .menu-buttons button:hover { background-color: #E10074; }
 
     /* ===== Form Styling ===== */
     form {
       display: flex;
       flex-direction: column;
       gap: 1em;
-      margin-top: 0.5em;
     }
-
-    label {
-      font-weight: bold;
-      color: #E5E5E5;
-      margin-bottom: 0.3em;
-    }
-
-    input,
-    textarea {
+    label { font-weight: bold; color: #E5E5E5; margin-bottom: 0.3em; }
+    input, textarea {
       width: 100%;
       padding: 0.8em;
       border: 1px solid #444;
       border-radius: 8px;
       background: #1A1A1A;
-      color: #fff;
+      color: white;
       font-size: 1em;
-      transition: all 0.2s ease-in-out;
     }
-
-    input:focus,
-    textarea:focus {
+    input:focus, textarea:focus {
       outline: none;
       border-color: #E10074;
-      box-shadow: 0 0 6px rgba(225, 0, 116, 0.5);
+      box-shadow: 0 0 6px rgba(225,0,116,0.5);
     }
-
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
+    textarea { resize: vertical; min-height: 120px; }
 
     button {
       background-color: #701D5E;
@@ -169,12 +186,8 @@
       transition: background 0.3s ease;
       width: 100%;
     }
+    button:hover { background-color: #E10074; }
 
-    button:hover {
-      background-color: #E10074;
-    }
-
-    /* ===== Footer ===== */
     footer {
       background: #111;
       color: #ccc;
@@ -183,43 +196,54 @@
       font-size: 0.9em;
     }
 
-    /* ===== Responsive Layout ===== */
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.6em;
-      }
-      section {
-        padding: 1em;
-      }
-      .card {
-        padding: 1em;
-      }
-      .map-container {
-        padding-top: 150%;
-      }
+    @media (max-width:600px){
+      .map-container { padding-top:150%; }
     }
   </style>
 </head>
-
 <body>
 
 <header id="top">
-  <h1>Moxy Dortmund City</h1>
+  <h1>Welcome to Moxy Dortmund City 👋</h1>
+  <p>All you need to know for your stay</p>
 </header>
 
+<!-- 🏨 Hotel Info Carousel -->
 <section id="info">
   <h2>Hotel Info</h2>
-  <div class="card">
-    <strong>Check-Out:</strong> 12:00<br>
-    <strong>Breakfast:</strong> 06:00–10:00 in the Lobby.<br>
-    <strong>Reception & Bar:</strong> 24-7<br>
-    <strong>Wi-Fi:</strong> <em>#atthemoxy</em> → “Proceed as Guest”.<br>
+  <div class="carousel">
+    <div class="carousel-track">
+      <div class="carousel-card">
+        <h3>🕒 Reception & Bar</h3>
+        <p>Open 24/7 – grab a drink or ask for anything, anytime!</p>
+      </div>
+      <div class="carousel-card">
+        <h3>🧳 Check-in / Check-out</h3>
+        <p>Check-in from 3 PM<br>Check-out until 12 PM</p>
+      </div>
+      <div class="carousel-card">
+        <h3>🍳 Breakfast</h3>
+        <p>Served in the lobby<br>06:00 – 10:00 daily</p>
+      </div>
+      <div class="carousel-card">
+        <h3>💪 Gym</h3>
+        <p>24/7 access at Residence Inn (next door)</p>
+      </div>
+      <div class="carousel-card">
+        <h3>🌐 Wi-Fi</h3>
+        <p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest”</p>
+      </div>
+    </div>
+    <div class="carousel-buttons">
+      <button id="prevCard">← Prev</button>
+      <button id="nextCard">Next →</button>
+    </div>
   </div>
 </section>
 
 <!-- 🥂 Bar Menu Section -->
 <section id="bar-menu">
-  <h2>Bar Menu</h2>
+  <h2>Bar Menu 🍸</h2>
   <div class="card">
     <div class="menu-container">
       <img id="menuImage" src="menu1.jpg" alt="Bar Menu Page" class="menu-image">
@@ -235,7 +259,7 @@
   <h2>Explore Dortmund</h2>
   <div class="card">
     <div class="map-container">
-      <iframe <iframe src="https://www.google.com/maps/d/embed?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ehbc=2E312F" width="640" height="480"></iframe>
+      <iframe src="https://www.google.com/maps?q=Moxy+Dortmund+City,+Annelise-Kretschmer-Straße+1,+44137+Dortmund&hl=en&z=15&output=embed"
               allowfullscreen=""
               loading="lazy">
       </iframe>
@@ -247,26 +271,29 @@
   <h2>Facilities</h2>
   <div class="card">
     Bar & Snacks 24/7 🍸<br>
-    Gym 24/7 @ Residence Inn<br>
+    Gym 🏋️‍♀️ 24/7 @ Residence Inn<br>
     Ironing Room on every floor, next to the elevator<br>
   </div>
 </section>
 
 <section id="explore">
-  <h2>What´s going on?</h2>
+  <h2>Nearby Highlights</h2>
   <div class="card">
+    • <a href="https://maps.app.goo.gl/3BhL9q7A1Ehf4FGT6" target="_blank">Signal Iduna Park</a> (U45/U46, 10 min)<br>
+    • <a href="https://maps.app.goo.gl/gMBvRQ9Y4TxQvSCt7" target="_blank">Thier-Galerie Shopping</a> (5 min walk)<br>
+    • <a href="https://maps.app.goo.gl/WmvFuakZGjvCWVcg6" target="_blank">Dortmunder U</a> (art & city view)
   </div>
 </section>
 
 <section id="contact">
   <h2>Contact the Crew</h2>
   <div class="card">
-    <a href="tel:+49231123456">+49 (0)231 123 456</a><br>
-    <a href="mailto:crew@dtmod.net">crew@dtmod.net</a>
+    ☎️ <a href="tel:+49231123456">+49 (0)231 123 456</a><br>
+    📧 <a href="mailto:crew@dtmod.net">crew@dtmod.net</a>
   </div>
 </section>
 
-<!-- 💌 Contact Form Section -->
+<!-- 💌 Contact Form -->
 <section id="feedback">
   <h2>Questions or Feedback?</h2>
   <div class="card">
@@ -293,11 +320,38 @@
   <p><a href="#top">↑ Back to top</a></p>
 </footer>
 
-<!-- ===== JavaScript for Menu Flip ===== -->
 <script>
-  const images = ["menu1.jpg", "menu2.jpg", "menu3.jpg", "menu4.jpg"]; // Add or remove menu pages here
-  let current = 0;
+  // ===== Hotel Info Carousel =====
+  const track = document.querySelector('.carousel-track');
+  const cards = Array.from(track.children);
+  let currentIndex = 0;
 
+  function updateCarousel() {
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  document.getElementById('nextCard').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % cards.length;
+    updateCarousel();
+  });
+
+  document.getElementById('prevCard').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+    updateCarousel();
+  });
+
+  // Swipe gestures (mobile)
+  let startX = 0;
+  track.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+  track.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (diff > 50) document.getElementById('prevCard').click();
+    if (diff < -50) document.getElementById('nextCard').click();
+  });
+
+  // ===== Bar Menu Flip =====
+  const images = ["menu1.jpg", "menu2.jpg", "menu3.jpg"];
+  let current = 0;
   const menuImage = document.getElementById("menuImage");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
@@ -314,7 +368,6 @@
     current = (current - 1 + images.length) % images.length;
     updateImage();
   });
-
   nextBtn.addEventListener("click", () => {
     current = (current + 1) % images.length;
     updateImage();
