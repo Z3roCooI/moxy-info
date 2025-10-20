@@ -18,9 +18,7 @@
       line-height: 1.6;
       box-sizing: border-box;
     }
-    *, *::before, *::after {
-      box-sizing: inherit;
-    }
+    *, *::before, *::after { box-sizing: inherit; }
 
     header {
       background: #701D5E;
@@ -83,7 +81,7 @@
       margin-bottom: 0.5em;
     }
 
-    /* ===== Overlay Arrows ===== */
+    /* ===== Arrows ===== */
     .arrow {
       position: absolute;
       top: 50%;
@@ -98,36 +96,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5em;
-      opacity: 0.5;
+      font-size: 1.4em;
+      opacity: 0.6;
       transition: opacity 0.3s;
     }
 
-    .arrow:hover {
-      opacity: 0.9;
-    }
+    .arrow:hover { opacity: 1; }
 
-    .arrow.left {
-      left: 10px;
-    }
-    .arrow.right {
-      right: 10px;
-    }
+    .arrow.left { left: 10px; }
+    .arrow.right { right: 10px; }
 
     /* ===== Map Styling ===== */
     .map-container {
       position: relative;
       overflow: hidden;
-      padding-top: 100%;
       border-radius: 12px;
     }
+
     .map-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
+      height: 400px;
       border: 0;
+      border-radius: 12px;
     }
 
     /* ===== Bar Menu ===== */
@@ -141,12 +131,6 @@
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(225,0,116,0.4);
       transition: opacity 0.4s ease;
-    }
-
-    /* Shared arrow style for menu */
-    .menu-container .arrow {
-      background: rgba(0,0,0,0.4);
-      opacity: 0.5;
     }
 
     /* ===== Form Styling ===== */
@@ -192,32 +176,46 @@
       padding: 1em;
       font-size: 0.9em;
     }
-
-    /* ===== Responsive Adjustments ===== */
-    @media (max-width: 600px) {
-      .arrow { display: none; } /* Hide arrows on mobile */
-      .map-container { padding-top: 150%; }
-    }
   </style>
 </head>
 
 <body>
 
 <header id="top">
-  <h1>Welcome to Moxy Dortmund City 👋</h1>
-  <p>All you need to know for your stay</p>
+  <h1>Moxy Dortmund City</h1>
+  <p>Guest Information</p>
 </header>
 
 <!-- 🏨 Hotel Info Carousel -->
 <section id="info">
-  <h2>Hotel Info</h2>
+  <h2>Hotel Information</h2>
   <div class="carousel">
     <div class="carousel-track" id="infoTrack">
-      <div class="carousel-card"><h3>🕒 Reception & Bar</h3><p>Open 24/7 – grab a drink or ask for anything, anytime!</p></div>
-      <div class="carousel-card"><h3>🧳 Check-in / Check-out</h3><p>Check-in from 3 PM<br>Check-out until 12 PM</p></div>
-      <div class="carousel-card"><h3>🍳 Breakfast</h3><p>Served in the lobby<br>06:00 – 10:00 daily</p></div>
-      <div class="carousel-card"><h3>💪 Gym</h3><p>24/7 access at Residence Inn (next door)</p></div>
-      <div class="carousel-card"><h3>🌐 Wi-Fi</h3><p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest”</p></div>
+      <div class="carousel-card">
+        <h3>Reception & Bar</h3>
+        <p>Open 24/7 for all your needs — from check-in to midnight cocktails.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Check-in & Check-out</h3>
+        <p>Check-in from 3:00 PM<br>Check-out by 12:00 PM</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Breakfast</h3>
+        <p>Served daily in the lobby from 6:00 AM to 10:00 AM.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Gym</h3>
+        <p>Available 24/7 at Residence Inn, next door.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Wi-Fi</h3>
+        <p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest” to connect.</p>
+      </div>
+      <div class="carousel-card">
+        <h3>Parking</h3>
+        <p>Public garage available nearby at Dortmunder U.<br>
+        <a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank">Open in Google Maps</a></p>
+      </div>
     </div>
     <button class="arrow left" id="prevInfo">‹</button>
     <button class="arrow right" id="nextInfo">›</button>
@@ -226,7 +224,7 @@
 
 <!-- 🥂 Bar Menu Section -->
 <section id="bar-menu">
-  <h2>Bar Menu 🍸</h2>
+  <h2>Bar Menu</h2>
   <div class="card">
     <div class="menu-container">
       <img id="menuImage" src="menu1.jpg" alt="Bar Menu Page" class="menu-image">
@@ -236,54 +234,31 @@
   </div>
 </section>
 
+<!-- 🗺️ Google Map -->
 <section id="map">
-  <h2>Explore Dortmund</h2>
-  <div class="card">
-    <div class="map-container">
-      <iframe src="https://www.google.com/maps?q=Moxy+Dortmund+City,+Annelise-Kretschmer-Straße+1,+44137+Dortmund&hl=en&z=15&output=embed" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-  </div>
-</section>
-
-<section id="facilities">
-  <h2>Facilities</h2>
-  <div class="card">
-    Bar & Snacks 24/7 🍸<br>
-    Gym 🏋️‍♀️ 24/7 @ Residence Inn<br>
-    Ironing Room on every floor, next to the elevator<br>
-  </div>
-</section>
-
-<section id="explore">
-  <h2>Nearby Highlights</h2>
-  <div class="card">
-    • <a href="https://maps.app.goo.gl/3BhL9q7A1Ehf4FGT6" target="_blank">Signal Iduna Park</a> (U45/U46, 10 min)<br>
-    • <a href="https://maps.app.goo.gl/gMBvRQ9Y4TxQvSCt7" target="_blank">Thier-Galerie Shopping</a> (5 min walk)<br>
-    • <a href="https://maps.app.goo.gl/WmvFuakZGjvCWVcg6" target="_blank">Dortmunder U</a> (art & city view)
-  </div>
-</section>
-
-<section id="contact">
-  <h2>Contact the Crew</h2>
-  <div class="card">
-    ☎️ <a href="tel:+49231123456">+49 (0)231 123 456</a><br>
-    📧 <a href="mailto:crew@dtmod.net">crew@dtmod.net</a>
+  <h2>Find Us</h2>
+  <div class="card map-container">
+    <iframe src="https://www.google.com/maps/d/embed?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ehbc=2E312F" allowfullscreen="" loading="lazy"></iframe>
   </div>
 </section>
 
 <!-- 💌 Contact Form -->
 <section id="feedback">
-  <h2>Questions or Feedback?</h2>
+  <h2>Contact</h2>
   <div class="card">
     <form action="https://formspree.io/f/mdkwjlgg" method="POST">
       <label for="guest-name">Guest Name:</label>
       <input type="text" id="guest-name" name="guest-name" placeholder="Your name" required>
+
       <label for="email">Contact Email:</label>
       <input type="email" id="email" name="_replyto" placeholder="you@example.com" required>
+
       <label for="room">Room Number:</label>
       <input type="text" id="room" name="room" placeholder="Your room number" required>
+
       <label for="message">Your Message:</label>
       <textarea id="message" name="message" rows="5" placeholder="Write your question or feedback here..." required></textarea>
+
       <button type="submit">Send Message</button>
     </form>
   </div>
@@ -300,7 +275,6 @@
   const infoCards = infoTrack.children;
   let infoIndex = 0;
   const totalInfo = infoCards.length;
-
   const nextInfo = document.getElementById("nextInfo");
   const prevInfo = document.getElementById("prevInfo");
 
