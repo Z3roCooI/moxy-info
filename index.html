@@ -99,10 +99,10 @@
       font-size: 1.4em;
       opacity: 0.6;
       transition: opacity 0.3s;
+      z-index: 10;
     }
 
     .arrow:hover { opacity: 1; }
-
     .arrow.left { left: 10px; }
     .arrow.right { right: 10px; }
 
@@ -189,7 +189,7 @@
 <!-- 🏨 Hotel Info Carousel -->
 <section id="info">
   <h2>Hotel Information</h2>
-  <div class="carousel">
+  <div class="carousel" id="infoCarousel">
     <div class="carousel-track" id="infoTrack">
       <div class="carousel-card">
         <h3>Reception & Bar</h3>
@@ -270,40 +270,74 @@
 </footer>
 
 <script>
-  /* ===== Hotel Info Carousel ===== */
-  const infoTrack = document.getElementById("infoTrack");
-  const infoCards = infoTrack.children;
-  let infoIndex = 0;
-  const totalInfo = infoCards.length;
-  const nextInfo = document.getElementById("nextInfo");
-  const prevInfo = document.getElementById("prevInfo");
+  // ====== Infinite Carousel Logic ======
+  function initInfiniteCarousel(trackId, prevBtnId, nextBtnId) {
+    const track = document.getElementById(trackId);
+    const slides = Array.from(track.children);
+    const total = slides.length;
+    let index = 1;
 
-  function updateInfo() {
-    infoTrack.style.transition = "transform 0.5s ease";
-    infoTrack.style.transform = `translateX(-${infoIndex * 100}%)`;
+    // Clone first and last slide for smooth loop
+    const firstClone = slides[0].cloneNode(true);
+    const lastClone = slides[total - 1].cloneNode(true);
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, slides[0]);
+
+    const allSlides = Array.from(track.children);
+    track.style.transform = `translateX(-${index * 100}%)`;
+
+    const nextBtn = document.getElementById(nextBtnId);
+    const prevBtn = document.getElementById(prevBtnId);
+
+    function moveToSlide(i) {
+      track.style.transition = "transform 0.5s ease";
+      track.style.transform = `translateX(-${i * 100}%)`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (index >= allSlides.length - 1) return;
+      index++;
+      moveToSlide(index);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (index <= 0) return;
+      index--;
+      moveToSlide(index);
+    });
+
+    track.addEventListener("transitionend", () => {
+      if (allSlides[index].isEqualNode(firstClone)) {
+        track.style.transition = "none";
+        index = 1;
+        track.style.transform = `translateX(-${index * 100}%)`;
+      }
+      if (allSlides[index].isEqualNode(lastClone)) {
+        track.style.transition = "none";
+        index = total;
+        track.style.transform = `translateX(-${index * 100}%)`;
+      }
+    });
+
+    // Swipe gestures
+    let startX = 0;
+    track.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+    track.addEventListener("touchend", e => {
+      const diff = e.changedTouches[0].clientX - startX;
+      if (diff > 50) prevBtn.click();
+      if (diff < -50) nextBtn.click();
+    });
   }
 
-  nextInfo.addEventListener("click", () => {
-    infoIndex = (infoIndex + 1) % totalInfo;
-    updateInfo();
-  });
-  prevInfo.addEventListener("click", () => {
-    infoIndex = (infoIndex - 1 + totalInfo) % totalInfo;
-    updateInfo();
-  });
+  // Initialize both carousels
+  initInfiniteCarousel("infoTrack", "prevInfo", "nextInfo");
 
-  let startX = 0;
-  infoTrack.addEventListener("touchstart", e => startX = e.touches[0].clientX);
-  infoTrack.addEventListener("touchend", e => {
-    const diff = e.changedTouches[0].clientX - startX;
-    if (diff > 50) prevInfo.click();
-    if (diff < -50) nextInfo.click();
-  });
-
-  /* ===== Bar Menu Swipe ===== */
+  // ===== Bar Menu Carousel =====
   const menuImages = ["menu1.jpg", "menu2.jpg", "menu3.jpg"];
   let menuIndex = 0;
   const menuImage = document.getElementById("menuImage");
+  const nextMenu = document.getElementById("nextMenu");
+  const prevMenu = document.getElementById("prevMenu");
 
   function updateMenu() {
     menuImage.style.opacity = 0;
@@ -312,9 +346,6 @@
       menuImage.style.opacity = 1;
     }, 200);
   }
-
-  const nextMenu = document.getElementById("nextMenu");
-  const prevMenu = document.getElementById("prevMenu");
 
   nextMenu.addEventListener("click", () => {
     menuIndex = (menuIndex + 1) % menuImages.length;
@@ -325,6 +356,7 @@
     updateMenu();
   });
 
+  // Swipe gestures for menu
   let startMenuX = 0;
   menuImage.addEventListener("touchstart", e => startMenuX = e.touches[0].clientX);
   menuImage.addEventListener("touchend", e => {
