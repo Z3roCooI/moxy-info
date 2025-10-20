@@ -17,13 +17,13 @@
       --accent2:#E10074;
       --arrow-size:42px;
       --arrow-mobile:30px;
-      --arrow-offset:8px;  /* distance from edge */
-      --arrow-idle:0.12;   /* idle opacity */
-      --arrow-active:0.7;  /* shown opacity */
+      --arrow-offset:8px;
+      --arrow-idle:0.12;
+      --arrow-active:0.7;
     }
 
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
+    html,body{margin:0;padding:0;scroll-behavior:smooth;}
     body{
       font-family:'Comfortaa',sans-serif;
       background:var(--bg);
@@ -31,15 +31,73 @@
       line-height:1.6;
     }
 
+    /* ===== Sticky Navbar ===== */
     header{
-      background:var(--accent);
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:100;
+      background:rgba(26,26,26,0.95);
+      backdrop-filter:blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0.8em 1.5em;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+    }
+    header h1{
       color:#fff;
-      text-align:center;
-      padding:1em 1em;
+      font-size:1.2em;
+      margin:0;
+      letter-spacing:0.5px;
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      gap:1.2em;
+    }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.95em;
+      transition:color 0.2s ease;
+    }
+    nav a:hover{color:var(--accent2);}
+
+    /* Hamburger for mobile */
+    .menu-toggle{
+      display:none;
+      flex-direction:column;
+      gap:4px;
+      cursor:pointer;
+    }
+    .menu-toggle span{
+      width:24px;
+      height:2px;
+      background:#fff;
+      transition:0.3s;
+    }
+    @media(max-width:700px){
+      nav{
+        position:fixed;
+        top:56px;
+        right:0;
+        flex-direction:column;
+        background:rgba(26,26,26,0.98);
+        width:200px;
+        transform:translateX(100%);
+        transition:transform 0.3s ease;
+        padding:1em;
+        border-left:1px solid rgba(255,255,255,0.1);
+      }
+      nav.open{transform:translateX(0);}
+      .menu-toggle{display:flex;}
     }
 
     section{
-      padding:1.5em;
+      padding:6em 1.5em 1.5em; /* top padding to offset sticky header */
       max-width:800px;
       margin:auto;
       width:100%;
@@ -63,181 +121,83 @@
     a{color:var(--accent2);text-decoration:none;font-weight:bold}
     a:hover{text-decoration:underline}
 
-    /* ======= Carousel (shared) ======= */
-    .carousel{
-      position:relative;
-      overflow:hidden;          /* prevents any overflow on mobile */
-      border-radius:12px;
-      width:100%;
-      touch-action:pan-y;       /* allow horizontal swipe without page scroll jitter */
-    }
-    .carousel-track{
-      display:flex;
-      width:100%;
-      will-change:transform;
-      transform:translateX(-100%); /* will be set in JS after cloning */
-    }
-    .carousel-card{
-      min-width:100%;
-      background:var(--card);
-      border-radius:12px;
-      /* extra side padding so arrows never cover text */
-      padding:1.5em clamp(2.5em, 6vw, 3.5em);
-      text-align:center;
-      box-shadow:0 2px 6px rgba(0,0,0,.3);
-    }
-    .carousel-card h3{
-      color:var(--accent2);
-      margin:.2em 0 .5em;
-    }
+    /* ===== Carousel ===== */
+    .carousel{position:relative;overflow:hidden;border-radius:12px;width:100%;touch-action:pan-y;}
+    .carousel-track{display:flex;width:100%;will-change:transform;transform:translateX(-100%);}
+    .carousel-card{min-width:100%;background:var(--card);border-radius:12px;padding:1.5em clamp(2.5em,6vw,3.5em);text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.3);}
+    .carousel-card h3{color:var(--accent2);margin:.2em 0 .5em;}
 
-    /* overlay arrows INSIDE the carousel so they don't affect layout */
-    .arrow{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      width:var(--arrow-size);
-      height:var(--arrow-size);
-      border-radius:50%;
-      background:rgba(0,0,0,.45);
-      border:1px solid rgba(255,255,255,.15);
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.25rem;
-      cursor:pointer;
-      user-select:none;
-      transition:opacity .25s ease, background .25s ease, border-color .25s ease;
-      z-index:2;
-      opacity:var(--arrow-idle);
-    }
+    .arrow{position:absolute;top:50%;transform:translateY(-50%);width:var(--arrow-size);height:var(--arrow-size);border-radius:50%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.25rem;cursor:pointer;user-select:none;transition:opacity .25s ease,background .25s ease,border-color .25s ease;z-index:2;opacity:var(--arrow-idle);}
     .arrow.left{left:var(--arrow-offset)}
     .arrow.right{right:var(--arrow-offset)}
     .arrow:hover{opacity:1;background:rgba(225,0,116,.45);border-color:var(--accent2)}
-
-    /* When user interacts, bump visibility briefly */
     .carousel.show-arrows .arrow{opacity:var(--arrow-active)}
 
     /* ===== Map ===== */
-    .map-container iframe{
-      width:100%;
-      height:400px;
-      border:0;
-      border-radius:12px;
-      display:block;
-    }
+    .map-container iframe{width:100%;height:400px;border:0;border-radius:12px;display:block;}
 
-    /* ===== Menu image viewer ===== */
-    .menu-stage{
-      position:relative;
-      border-radius:12px;
-      overflow:hidden;
-    }
-    .menu-image{
-      width:100%;
-      display:block;
-      border-radius:12px;
-      box-shadow:0 0 15px rgba(225,0,116,.35);
-      transition:opacity .35s ease;
-    }
+    /* ===== Menu images ===== */
+    .menu-stage{position:relative;border-radius:12px;overflow:hidden;}
+    .menu-image{width:100%;display:block;border-radius:12px;box-shadow:0 0 15px rgba(225,0,116,.35);transition:opacity .35s ease;}
 
     /* ===== Form ===== */
     form{display:flex;flex-direction:column;gap:1em}
     label{font-weight:bold;color:var(--muted)}
-    input,textarea{
-      width:100%;
-      padding:.8em;
-      border:1px solid #444;
-      border-radius:8px;
-      background:#1A1A1A;
-      color:#fff;
-      font-size:1em;
-      outline:none;
-      transition:border-color .2s, box-shadow .2s;
-    }
+    input,textarea{width:100%;padding:.8em;border:1px solid #444;border-radius:8px;background:#1A1A1A;color:#fff;font-size:1em;outline:none;transition:border-color .2s,box-shadow .2s;}
     input:focus,textarea:focus{border-color:var(--accent2);box-shadow:0 0 6px rgba(225,0,116,.5)}
     textarea{resize:vertical;min-height:120px}
-    button{
-      background:var(--accent);
-      color:#fff;
-      border:none;
-      border-radius:8px;
-      padding:.9em;
-      font-size:1em;
-      cursor:pointer;
-      transition:background .3s ease;
-      width:100%;
-    }
+    button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:.9em;font-size:1em;cursor:pointer;transition:background .3s ease;width:100%;}
     button:hover{background:var(--accent2)}
 
-    footer{
-      background:#111;
-      color:#ccc;
-      text-align:center;
-      padding:1em;
-      font-size:.9em;
-    }
+    footer{background:#111;color:#ccc;text-align:center;padding:1em;font-size:.9em;}
 
-    /* ===== Mobile tweaks ===== */
     @media (max-width:600px){
       :root{ --arrow-size:var(--arrow-mobile); --arrow-offset:6px; }
-      .map-container iframe{ height:55vh; }  /* nice tall map on phones */
-      .carousel-card{ padding:1.25em 2.75em; } /* a bit tighter but still clear of arrows */
+      .map-container iframe{height:55vh;}
+      .carousel-card{padding:1.25em 2.75em;}
     }
   </style>
 </head>
 <body>
 
-<header id="top">
+<header>
   <h1>Moxy Dortmund City</h1>
+  <div class="menu-toggle" id="menuToggle">
+    <span></span><span></span><span></span>
+  </div>
+  <nav id="navMenu">
+    <a href="#info">Hotel Info</a>
+    <a href="#bar-menu">Bar Menu</a>
+    <a href="#map">Find Us</a>
+    <a href="#feedback">Contact</a>
+  </nav>
 </header>
 
 <!-- ===== Hotel Info Carousel ===== -->
 <section id="info">
   <h2>Hotel Information</h2>
   <div class="carousel" id="infoCarousel">
-    <button class="arrow left"  id="prevInfo" aria-label="Previous">‹</button>
-    <button class="arrow right" id="nextInfo" aria-label="Next">›</button>
+    <button class="arrow left" id="prevInfo">‹</button>
+    <button class="arrow right" id="nextInfo">›</button>
 
     <div class="carousel-track" id="infoTrack">
-      <div class="carousel-card">
-        <h3>Reception & Bar</h3>
-        <p>Open 24/7 for all your needs — from check-in to midnight cocktails.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Check-in & Check-out</h3>
-        <p>Check-in from 3:00 PM<br>Check-out by 12:00 PM</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Breakfast</h3>
-        <p>Served daily in the lobby from 6:00 AM to 10:00 AM.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Gym</h3>
-        <p>Available 24/7 at Residence Inn, next door.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Wi-Fi</h3>
-        <p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest” to connect.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Parking</h3>
-        <p>Public garage available nearby at Dortmunder U.<br>
-          <a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank" rel="noopener">Open in Google Maps</a>
-        </p>
-      </div>
+      <div class="carousel-card"><h3>Reception & Bar</h3><p>Open 24/7 for all your needs — from check-in to midnight cocktails.</p></div>
+      <div class="carousel-card"><h3>Check-in & Check-out</h3><p>Check-in from 3:00 PM<br>Check-out by 12:00 PM</p></div>
+      <div class="carousel-card"><h3>Breakfast</h3><p>Served daily in the lobby from 6:00 AM to 10:00 AM.</p></div>
+      <div class="carousel-card"><h3>Gym</h3><p>Available 24/7 at Residence Inn, next door.</p></div>
+      <div class="carousel-card"><h3>Wi-Fi</h3><p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest” to connect.</p></div>
+      <div class="carousel-card"><h3>Parking</h3><p>Public garage available nearby at Dortmunder U.<br><a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank">Open in Google Maps</a></p></div>
     </div>
   </div>
 </section>
 
-<!-- ===== Bar Menu (image slider) ===== -->
+<!-- ===== Bar Menu ===== -->
 <section id="bar-menu">
   <h2>Bar Menu</h2>
   <div class="card menu-stage" id="menuStage">
-    <button class="arrow left"  id="prevMenu" aria-label="Previous">‹</button>
-    <img id="menuImage" src="menu1.jpg" alt="Bar Menu Page" class="menu-image">
-    <button class="arrow right" id="nextMenu" aria-label="Next">›</button>
+    <button class="arrow left" id="prevMenu">‹</button>
+    <img id="menuImage" src="menu1.jpg" alt="Bar Menu" class="menu-image">
+    <button class="arrow right" id="nextMenu">›</button>
   </div>
 </section>
 
@@ -245,11 +205,7 @@
 <section id="map">
   <h2>Find Us</h2>
   <div class="card map-container">
-    <iframe
-      src="https://www.google.com/maps/d/embed?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ehbc=2E312F"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
+    <iframe src="https://www.google.com/maps/d/embed?mid=1yWKO4pp1jxUdNZz5lxTm0l96eb5kXg4&ehbc=2E312F" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 
@@ -260,16 +216,12 @@
     <form action="https://formspree.io/f/mdkwjlgg" method="POST">
       <label for="guest-name">Guest Name:</label>
       <input type="text" id="guest-name" name="guest-name" placeholder="Your name" required>
-
       <label for="email">Contact Email:</label>
       <input type="email" id="email" name="_replyto" placeholder="you@example.com" required>
-
       <label for="room">Room Number:</label>
       <input type="text" id="room" name="room" placeholder="Your room number" required>
-
       <label for="message">Your Message:</label>
       <textarea id="message" name="message" rows="5" placeholder="Write your question or feedback here..." required></textarea>
-
       <button type="submit">Send Message</button>
     </form>
   </div>
@@ -277,106 +229,82 @@
 
 <footer>
   <p>© 2025 Moxy Dortmund City | Marriott International</p>
-  <p><a href="#top">↑ Back to top</a></p>
 </footer>
 
 <script>
-  /* ===== Utilities: show arrows briefly after interaction ===== */
+  // ===== Sticky Navbar mobile toggle =====
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => nav.classList.toggle('open'));
+
+  // ===== Carousel logic =====
   function flashArrows(container){
     container.classList.add('show-arrows');
     clearTimeout(container._arrowTimer);
-    container._arrowTimer = setTimeout(()=>container.classList.remove('show-arrows'), 1000);
+    container._arrowTimer = setTimeout(()=>container.classList.remove('show-arrows'),1000);
   }
 
-  /* ===== Infinite carousel factory ===== */
   function makeInfiniteCarousel(trackEl, prevBtn, nextBtn, containerEl){
     const original = Array.from(trackEl.children);
     const firstClone = original[0].cloneNode(true);
     const lastClone  = original[original.length-1].cloneNode(true);
-
     trackEl.appendChild(firstClone);
     trackEl.insertBefore(lastClone, original[0]);
-
-    let index = 1; // start at first real slide
-    const totalWithClones = trackEl.children.length;
-
-    function goto(i, withAnim=true){
-      if(withAnim) trackEl.style.transition = "transform 0.55s ease";
-      else trackEl.style.transition = "none";
-      trackEl.style.transform = `translateX(-${i * 100}%)`;
+    let index = 1;
+    function goto(i, anim=true){
+      trackEl.style.transition = anim ? "transform .55s ease":"none";
+      trackEl.style.transform = `translateX(-${i*100}%)`;
     }
-    // initial position
     requestAnimationFrame(()=>goto(index,false));
-
-    nextBtn.addEventListener('click', ()=>{ index++; goto(index); flashArrows(containerEl); });
-    prevBtn.addEventListener('click', ()=>{ index--; goto(index); flashArrows(containerEl); });
-
+    nextBtn.onclick = ()=>{ index++; goto(index); flashArrows(containerEl); };
+    prevBtn.onclick = ()=>{ index--; goto(index); flashArrows(containerEl); };
     trackEl.addEventListener('transitionend', ()=>{
       const slides = trackEl.children;
-      if (slides[index] === firstClone){
-        index = 1;
-        goto(index,false);
-      }
-      if (slides[index] === lastClone){
-        index = original.length;
-        goto(index,false);
-      }
+      if(slides[index]===firstClone){ index=1; goto(index,false);}
+      if(slides[index]===lastClone){ index=original.length; goto(index,false);}
     });
-
-    // Touch swipe
     let startX=null;
-    trackEl.addEventListener('touchstart', e=>{
-      startX = e.touches[0].clientX;
-      flashArrows(containerEl);
-    }, {passive:true});
-
-    trackEl.addEventListener('touchend', e=>{
-      if(startX===null) return;
-      const dx = e.changedTouches[0].clientX - startX;
-      if (dx > 50) prevBtn.click();
-      if (dx < -50) nextBtn.click();
-      startX = null;
+    trackEl.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;flashArrows(containerEl);},{passive:true});
+    trackEl.addEventListener('touchend',e=>{
+      if(startX===null)return;
+      const dx=e.changedTouches[0].clientX-startX;
+      if(dx>50)prevBtn.click();
+      if(dx<-50)nextBtn.click();
+      startX=null;
     });
   }
 
-  // Hotel Info carousel
-  const infoCarousel  = document.getElementById('infoCarousel');
-  const infoTrack     = document.getElementById('infoTrack');
-  const prevInfo      = document.getElementById('prevInfo');
-  const nextInfo      = document.getElementById('nextInfo');
-  makeInfiniteCarousel(infoTrack, prevInfo, nextInfo, infoCarousel);
+  makeInfiniteCarousel(
+    document.getElementById('infoTrack'),
+    document.getElementById('prevInfo'),
+    document.getElementById('nextInfo'),
+    document.getElementById('infoCarousel')
+  );
 
-  // Bar Menu simple slider (swipe + arrows, no clones needed since images swap)
-  const menuStage   = document.getElementById('menuStage');
-  const menuImg     = document.getElementById('menuImage');
-  const prevMenuBtn = document.getElementById('prevMenu');
-  const nextMenuBtn = document.getElementById('nextMenu');
-  const menuImages  = ["menu1.jpg","menu2.jpg","menu3.jpg"];
-  let mi = 0;
-
-  function setMenu(i){
-    menuImg.style.opacity = 0;
-    setTimeout(()=>{
-      menuImg.src = menuImages[i];
-      menuImg.style.opacity = 1;
-    },180);
+  // ===== Bar menu slider =====
+  const menuStage=document.getElementById('menuStage');
+  const menuImg=document.getElementById('menuImage');
+  const prevMenu=document.getElementById('prevMenu');
+  const nextMenu=document.getElementById('nextMenu');
+  const menuImgs=["menu1.jpg","menu2.jpg","menu3.jpg"];
+  let mi=0;
+  function showMenu(i){
+    menuImg.style.opacity=0;
+    setTimeout(()=>{menuImg.src=menuImgs[i];menuImg.style.opacity=1;},180);
   }
-
-  nextMenuBtn.addEventListener('click', ()=>{ mi = (mi+1)%menuImages.length; setMenu(mi); flashArrows(menuStage); });
-  prevMenuBtn.addEventListener('click', ()=>{ mi = (mi-1+menuImages.length)%menuImages.length; setMenu(mi); flashArrows(menuStage); });
-
-  let touchStartX = null;
-  menuImg.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; flashArrows(menuStage); }, {passive:true});
-  menuImg.addEventListener('touchend', e=>{
-    if(touchStartX===null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (dx > 50) prevMenuBtn.click();
-    if (dx < -50) nextMenuBtn.click();
-    touchStartX=null;
+  nextMenu.onclick=()=>{mi=(mi+1)%menuImgs.length;showMenu(mi);flashArrows(menuStage);}
+  prevMenu.onclick=()=>{mi=(mi-1+menuImgs.length)%menuImgs.length;showMenu(mi);flashArrows(menuStage);}
+  let sx=null;
+  menuImg.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;flashArrows(menuStage);},{passive:true});
+  menuImg.addEventListener('touchend',e=>{
+    if(sx===null)return;
+    const dx=e.changedTouches[0].clientX-sx;
+    if(dx>50)prevMenu.click();
+    if(dx<-50)nextMenu.click();
+    sx=null;
   });
 
-  // Reveal arrows briefly on first load so users notice them
-  flashArrows(infoCarousel);
+  flashArrows(document.getElementById('infoCarousel'));
   flashArrows(menuStage);
 </script>
 
