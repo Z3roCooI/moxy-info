@@ -6,7 +6,6 @@
   <title>Moxy Dortmund City Info</title>
   <link rel="icon" href="logo.png" />
   
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
@@ -56,10 +55,18 @@
     a:hover { text-decoration: underline; }
 
     /* ===== Carousel Base ===== */
-    .carousel {
+    .carousel-wrapper {
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+    }
+
+    .carousel {
       overflow: hidden;
       border-radius: 12px;
+      flex: 1;
     }
 
     .carousel-track {
@@ -81,38 +88,31 @@
       margin-bottom: 0.5em;
     }
 
-    /* ===== Arrows ===== */
+    /* ===== Arrows (now outside) ===== */
     .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.4);
-      color: white;
-      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
+      font-size: 1.2em;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4em;
       opacity: 0.6;
-      transition: opacity 0.3s;
-      z-index: 10;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
     }
 
-    .arrow:hover { opacity: 1; }
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
-
-    /* ===== Map Styling ===== */
-    .map-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
+    .arrow:hover {
+      opacity: 1;
+      background: rgba(225, 0, 116, 0.4);
+      border-color: #E10074;
     }
 
+    /* ===== Map ===== */
     .map-container iframe {
       width: 100%;
       height: 400px;
@@ -122,8 +122,10 @@
 
     /* ===== Bar Menu ===== */
     .menu-container {
-      position: relative;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
     }
 
     .menu-image {
@@ -131,9 +133,10 @@
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(225,0,116,0.4);
       transition: opacity 0.4s ease;
+      max-width: 100%;
     }
 
-    /* ===== Form Styling ===== */
+    /* ===== Form ===== */
     form {
       display: flex;
       flex-direction: column;
@@ -176,6 +179,15 @@
       padding: 1em;
       font-size: 0.9em;
     }
+
+    @media (max-width: 600px) {
+      .carousel-wrapper, .menu-container {
+        flex-direction: column;
+      }
+      .arrow {
+        order: 1;
+      }
+    }
   </style>
 </head>
 
@@ -189,47 +201,30 @@
 <!-- 🏨 Hotel Info Carousel -->
 <section id="info">
   <h2>Hotel Information</h2>
-  <div class="carousel" id="infoCarousel">
-    <div class="carousel-track" id="infoTrack">
-      <div class="carousel-card">
-        <h3>Reception & Bar</h3>
-        <p>Open 24/7 for all your needs — from check-in to midnight cocktails.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Check-in & Check-out</h3>
-        <p>Check-in from 3:00 PM<br>Check-out by 12:00 PM</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Breakfast</h3>
-        <p>Served daily in the lobby from 6:00 AM to 10:00 AM.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Gym</h3>
-        <p>Available 24/7 at Residence Inn, next door.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Wi-Fi</h3>
-        <p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest” to connect.</p>
-      </div>
-      <div class="carousel-card">
-        <h3>Parking</h3>
-        <p>Public garage available nearby at Dortmunder U.<br>
-        <a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank">Open in Google Maps</a></p>
+  <div class="carousel-wrapper">
+    <button class="arrow" id="prevInfo">‹</button>
+    <div class="carousel">
+      <div class="carousel-track" id="infoTrack">
+        <div class="carousel-card"><h3>Reception & Bar</h3><p>Open 24/7 for all your needs — from check-in to midnight cocktails.</p></div>
+        <div class="carousel-card"><h3>Check-in & Check-out</h3><p>Check-in from 3:00 PM<br>Check-out by 12:00 PM</p></div>
+        <div class="carousel-card"><h3>Breakfast</h3><p>Served daily in the lobby from 6:00 AM to 10:00 AM.</p></div>
+        <div class="carousel-card"><h3>Gym</h3><p>Available 24/7 at Residence Inn, next door.</p></div>
+        <div class="carousel-card"><h3>Wi-Fi</h3><p>Network: <em>#atthemoxy</em><br>Select “Proceed as Guest” to connect.</p></div>
+        <div class="carousel-card"><h3>Parking</h3><p>Public garage available nearby at Dortmunder U.<br><a href="https://maps.app.goo.gl/JWEBeVhvfdk7i6u2A" target="_blank">Open in Google Maps</a></p></div>
       </div>
     </div>
-    <button class="arrow left" id="prevInfo">‹</button>
-    <button class="arrow right" id="nextInfo">›</button>
+    <button class="arrow" id="nextInfo">›</button>
   </div>
 </section>
 
-<!-- 🥂 Bar Menu Section -->
+<!-- 🥂 Bar Menu -->
 <section id="bar-menu">
   <h2>Bar Menu</h2>
   <div class="card">
     <div class="menu-container">
-      <img id="menuImage" src="menu1.jpg" alt="Bar Menu Page" class="menu-image">
-      <button class="arrow left" id="prevMenu">‹</button>
-      <button class="arrow right" id="nextMenu">›</button>
+      <button class="arrow" id="prevMenu">‹</button>
+      <img id="menuImage" src="menu1.jpg" alt="Bar Menu" class="menu-image">
+      <button class="arrow" id="nextMenu">›</button>
     </div>
   </div>
 </section>
@@ -242,7 +237,7 @@
   </div>
 </section>
 
-<!-- 💌 Contact Form -->
+<!-- 💌 Contact -->
 <section id="feedback">
   <h2>Contact</h2>
   <div class="card">
@@ -270,20 +265,19 @@
 </footer>
 
 <script>
-  // ====== Infinite Carousel Logic ======
+  // ===== Infinite Carousel (Smooth) =====
   function initInfiniteCarousel(trackId, prevBtnId, nextBtnId) {
     const track = document.getElementById(trackId);
     const slides = Array.from(track.children);
     const total = slides.length;
     let index = 1;
 
-    // Clone first and last slide for smooth loop
     const firstClone = slides[0].cloneNode(true);
     const lastClone = slides[total - 1].cloneNode(true);
     track.appendChild(firstClone);
     track.insertBefore(lastClone, slides[0]);
-
     const allSlides = Array.from(track.children);
+
     track.style.transform = `translateX(-${index * 100}%)`;
 
     const nextBtn = document.getElementById(nextBtnId);
@@ -299,7 +293,6 @@
       index++;
       moveToSlide(index);
     });
-
     prevBtn.addEventListener("click", () => {
       if (index <= 0) return;
       index--;
@@ -319,7 +312,7 @@
       }
     });
 
-    // Swipe gestures
+    // Swipe
     let startX = 0;
     track.addEventListener("touchstart", e => startX = e.touches[0].clientX);
     track.addEventListener("touchend", e => {
@@ -329,7 +322,6 @@
     });
   }
 
-  // Initialize both carousels
   initInfiniteCarousel("infoTrack", "prevInfo", "nextInfo");
 
   // ===== Bar Menu Carousel =====
@@ -356,11 +348,9 @@
     updateMenu();
   });
 
-  // Swipe gestures for menu
-  let startMenuX = 0;
-  menuImage.addEventListener("touchstart", e => startMenuX = e.touches[0].clientX);
+  menuImage.addEventListener("touchstart", e => startX = e.touches[0].clientX);
   menuImage.addEventListener("touchend", e => {
-    const diff = e.changedTouches[0].clientX - startMenuX;
+    const diff = e.changedTouches[0].clientX - startX;
     if (diff > 50) prevMenu.click();
     if (diff < -50) nextMenu.click();
   });
